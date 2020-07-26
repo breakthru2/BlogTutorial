@@ -31,69 +31,36 @@
             </li>
         </ul>
     </nav>
-   
-    <div id="layoutSidenav">
-        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-        {
-            <div id="layoutSidenav_nav">
-                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                    <div class="sb-sidenav-menu">
-                        <div class="nav">
-                            <div class="sb-sidenav-menu-heading">Core</div>
-                            <a class="nav-link" asp-action="Dashboard" asp-controller="admin">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Dashboard
-                            </a>
-                            <a class="nav-link" asp-action="Index" asp-controller="Users">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Users
-                            </a>
-                            <a class="nav-link" asp-action="Profile" asp-controller="admin">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Profile
-                            </a>
-                            <a class="nav-link" asp-action="Index" asp-controller="Post">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Posts
-                            </a>
-                            <a class="nav-link" asp-action="Index" asp-controller="Category">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Categories
-                            </a>
 
-                        </div>
+    <div id="layoutSidenav">
+
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">Core</div>
+                        <a class="nav-link" asp-action="Dashboard" asp-controller="admin">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Dashboard
+                        </a>
+                        <a class="nav-link" asp-action="ListUsers" asp-controller="Admin">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Users
+                        </a>
+                        <a class="nav-link" asp-action="Post" asp-controller="Admin">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Posts
+                        </a>
+                        <a class="nav-link" asp-action="Category" asp-controller="Admin">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Categories
+                        </a>
                     </div>
-                    @*<div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Start Bootstrap
-                    </div>*@
-                </nav>
-            </div>
-        }
-        else
-        {
-            <div id="layoutSidenav_nav">
-                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                    <div class="sb-sidenav-menu">
-                        <div class="nav">
-                            <div class="sb-sidenav-menu-heading">Core</div>
-                            <a class="nav-link" asp-action="Dashboard" asp-controller="admin">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Dashboard
-                            </a>                          
-                            <a class="nav-link" asp-action="Index" asp-controller="Post">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Posts
-                            </a>
-                        </div>
-                    </div>
-                    @*<div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Start Bootstrap
-                    </div>*@
-                </nav>
-            </div>
-        }
+                </div>
+
+            </nav>
+        </div>
+
 
 
         <div id="layoutSidenav_content">
@@ -132,5 +99,7 @@
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
     <script src="~/assets/demo/datatables-demo.js"></script>
+
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

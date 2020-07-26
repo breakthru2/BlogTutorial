@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using BlogTutorial.Services;
 using BlogTutorial.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogTutorial.Controllers
 {
+    
     public class AdminController : Controller
     {
         private readonly IAdminRepo _repo;
@@ -17,9 +19,25 @@ namespace BlogTutorial.Controllers
         {
             _repo = repo;
         }
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Index(LoginViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new IdentityUser
+                {
+                    Email = vm.Email
+                };
+                _repo.UserLogin(user, vm.Password);
+                return RedirectToAction(nameof(Dashboard));
+            }
+            return View(vm);
         }
         public IActionResult Dashboard()
         {
@@ -47,6 +65,11 @@ namespace BlogTutorial.Controllers
             }
 
             return View(vm);
+        }
+
+        public async Task<IActionResult> ListUsers()
+        {
+            return View( await _repo.GetAllUsers());
         }
     }
 }

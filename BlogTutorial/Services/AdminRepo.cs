@@ -1,4 +1,5 @@
 ﻿using BlogTutorial.Data;
+using BlogTutorial.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,13 +15,26 @@ namespace BlogTutorial.Services
         private readonly ApplicationDbContext _context;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public AdminRepo(ApplicationDbContext context, RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
+        public AdminRepo(ApplicationDbContext context, RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
             _context = context;
             _roleManager = roleManager;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
+
+        public void AddCategory(Category category)
+        {
+             _context.Categories.Add(category);
+        }
+
+        public void AddPost(Post post)
+        {
+            _context.Posts.Add(post);
+        }
+
         public async Task AddUser(IdentityUser user, string role, string password)
         {
             //var roleInDb = await _roleManager.FindByNameAsync(role);
@@ -44,9 +58,24 @@ namespace BlogTutorial.Services
 
         }
 
+        public async Task<List<Category>> GetAllCategories()
+        {
+            return await _context.Categories.ToListAsync();
+        }
+
+        public async Task<List<Post>> GetAllPosts()
+        {
+            return await _context.Posts.ToListAsync();
+        }
+
         public async Task<List<IdentityUser>> GetAllUsers()
         {
             return (await _context.Users.ToListAsync());
+        }
+
+        public async Task<Post> GetPost(Guid Id)
+        {
+            return await _context.Posts.Where(p => p.Id == Id).FirstOrDefaultAsync();
         }
 
         public async Task<IdentityUser> GetUser(string Id)
@@ -58,6 +87,11 @@ namespace BlogTutorial.Services
         public async Task<bool> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task UserLogin(IdentityUser user, string password)
+        {
+            await _signInManager.PasswordSignInAsync(user, password, false, false);
         }
     }
 }

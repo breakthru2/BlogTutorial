@@ -31,6 +31,12 @@ namespace BlogTutorial
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+            
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Admin/Index";
+            });
+
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
                 options.Password.RequireDigit = false;
@@ -45,6 +51,8 @@ namespace BlogTutorial
             services.AddRazorPages();
 
             services.AddScoped<IAdminRepo, AdminRepo>();
+
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

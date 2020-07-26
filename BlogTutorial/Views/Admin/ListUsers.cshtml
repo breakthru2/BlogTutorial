@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>
+@{
+    ViewData["Title"] = "List Users";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+    <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+    <a class="btn btn-primary" asp-action="AddUser">Add user</a>
+    <br /><br />
+<table class="table table-hover table-bordered" id="tblData">
+    <thead>
+        <tr>
+            <th>S/N</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ var i = 1;}
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@i</td>
+                <td>@user.Email</td>
+            </tr>
+
+            i++;
+        }
+    </tbody>
+</table>
+
+@section Scripts{ 
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#tblData").DataTable();
+    })
+</script>
+}
