@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BlogTutorial.Controllers
 {
+    [Authorize]
     
     public class AdminController : Controller
     {
@@ -19,22 +20,23 @@ namespace BlogTutorial.Controllers
         {
             _repo = repo;
         }
+
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
-        public IActionResult Index(LoginViewModel vm)
+        public async Task<IActionResult> Index(LoginViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser
-                {
-                    Email = vm.Email
-                };
-                _repo.UserLogin(user, vm.Password);
+                
+                var result = await _repo.UserLogin(vm.Email, vm.Password);
+                if(result == true)
                 return RedirectToAction(nameof(Dashboard));
             }
             return View(vm);

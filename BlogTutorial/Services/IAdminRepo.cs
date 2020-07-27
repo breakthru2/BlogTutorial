@@ -18,7 +18,7 @@ namespace BlogTutorial.Services
 
         Task<bool> SaveChangesAsync();
 
-        Task UserLogin(IdentityUser user, string password);
+        Task<bool> UserLogin(string username, string password);
 
         void AddCategory(Category category);
 

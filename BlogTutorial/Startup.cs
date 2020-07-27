@@ -32,10 +32,7 @@ namespace BlogTutorial
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.LoginPath = "/Admin/Index";
-            });
+            
 
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
@@ -46,9 +43,15 @@ namespace BlogTutorial
                 options.Password.RequiredLength = 4;
                 options.Password.RequiredUniqueChars = 0;
             })
+                //.AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Admin/Index";
+            });
 
             services.AddScoped<IAdminRepo, AdminRepo>();
 

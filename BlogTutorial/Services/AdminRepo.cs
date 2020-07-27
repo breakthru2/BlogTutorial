@@ -89,9 +89,13 @@ namespace BlogTutorial.Services
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task UserLogin(IdentityUser user, string password)
+        public async Task<bool> UserLogin(string username, string password)
         {
-            await _signInManager.PasswordSignInAsync(user, password, false, false);
+            var result = await _signInManager.PasswordSignInAsync(username, password, false, false);
+            if (result.Succeeded) {
+                return true;
+                    }
+            return false;
         }
     }
 }
