@@ -1,6 +1,7 @@
 ﻿using BlogTutorial.Data;
 using BlogTutorial.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace BlogTutorial.Services
             _context.Posts.Add(post);
         }
 
-        public async Task AddUser(IdentityUser user, string role, string password)
+        public async Task<IdentityResult> AddUser(IdentityUser user, string role, string password)
         {
             //var roleInDb = await _roleManager.FindByNameAsync(role);
             if (!(await _roleManager.RoleExistsAsync(role)))
@@ -50,10 +51,13 @@ namespace BlogTutorial.Services
                 UserName = user.Email
             };
             // add a new user
-            await _userManager.CreateAsync(newUser, password);
+            var result = await _userManager.CreateAsync(newUser, password);
 
+           
             // assign the new user to created or exisiting role
             await _userManager.AddToRoleAsync(newUser, role);
+
+            return result;
 
 
         }

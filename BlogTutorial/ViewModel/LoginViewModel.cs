@@ -14,5 +14,6 @@ namespace BlogTutorial.ViewModel
 
         [Required]
         public string Password { get; set; }
+
     }
 }

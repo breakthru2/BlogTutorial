@@ -10,7 +10,7 @@ namespace BlogTutorial.Services
 {
     public interface IAdminRepo
     {
-        Task AddUser(IdentityUser user, string role, string password);
+        Task<IdentityResult> AddUser(IdentityUser user, string role, string password);
 
         Task<IdentityUser> GetUser(string Id);
 

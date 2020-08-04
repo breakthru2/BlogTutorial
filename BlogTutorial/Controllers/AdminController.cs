@@ -61,11 +61,22 @@ namespace BlogTutorial.Controllers
                     Email = vm.Email
                 };
 
-                await _repo.AddUser(user, vm.Role, vm.Password);
-                await _repo.SaveChangesAsync();
-                return RedirectToAction(nameof(Dashboard));
-            }
+                var result = await _repo.AddUser(user, vm.Role, vm.Password);
 
+                if (result.Succeeded)
+                {
+                    await _repo.SaveChangesAsync();
+                    return RedirectToAction(nameof(Dashboard));
+                }
+                else
+                {
+                    ViewBag.Errors = result.Errors.ToList();
+                    return View(vm);
+                }
+
+                
+            }
+            //vm.Errors = null;
             return View(vm);
         }
 
